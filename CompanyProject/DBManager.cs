@@ -4,21 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Data.SqlClient;
 using System.Data;
-using System.Windows.Forms;
 using System.Threading.Tasks;
 
 namespace CompanyProject
 {
 	public class DBManager
 	{
-		SqlConnection myConnection;
+		SqlConnection conn;
 
 		public DBManager()
 		{
-			myConnection = new SqlConnection(CompanyProject.Constants.);
+			conn = new SqlConnection();
+			conn.ConnectionString = CompanyProject.Constants.ConnectionString;
 			try
 			{
-				myConnection.Open();
+				conn.Open();
 				Console.WriteLine("The DB connection is opened successfully");
 			}
 			catch (Exception e)
@@ -32,7 +32,7 @@ namespace CompanyProject
 		{
 			try
 			{
-				SqlCommand myCommand = new SqlCommand(query, myConnection);
+				SqlCommand myCommand = new SqlCommand(query, conn);
 				return await myCommand.ExecuteNonQueryAsync();
 			}
 			catch (Exception ex)
@@ -46,7 +46,7 @@ namespace CompanyProject
 		{
 			try
 			{
-				SqlCommand myCommand = new SqlCommand(query, myConnection);
+				SqlCommand myCommand = new SqlCommand(query, conn);
 				SqlDataReader reader = await myCommand.ExecuteReaderAsync();
 				if (reader.HasRows)
 				{
@@ -71,7 +71,7 @@ namespace CompanyProject
 		{
 			try
 			{
-				SqlCommand myCommand = new SqlCommand(query, myConnection);
+				SqlCommand myCommand = new SqlCommand(query, conn);
 				return await myCommand.ExecuteScalarAsync();
 			}
 			catch (Exception ex)
@@ -85,7 +85,7 @@ namespace CompanyProject
 		{
 			try
 			{
-				myConnection.Close();
+				conn.Close();
 			}
 			catch (Exception e)
 			{

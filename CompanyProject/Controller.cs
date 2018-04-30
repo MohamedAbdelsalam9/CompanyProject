@@ -15,15 +15,15 @@ namespace CompanyProject
 			db_manager = new DBManager();
 		}
 
-		public int AddEmplyee(int EID, string address, string Position, int phone, string evaluation, DateTime DOB, string sex, 
+		public async Task<int> AddEmployee(int EID, string address, string Position, int phone, string evaluation, DateTime DOB, string sex, 
 			string email, DateTime start_date, string name, int E_Dnum, DateTime E_D_start_date, int E_Bnum, string password)
 		{
 			string query = "INSERT INTO Employee (EID, address, Position, phone, evaluation, DOB, sex, email, start_date, name, E_Dnum, " +
 					"E_D_start_date, E_Bnum, password)" +
-					"Values ('" + EID + "'," + address + ",'" + Position + "'," + phone + "'," + evaluation + ",'" + DOB.ToString("yyyy-MM-dd") + 
-					"'," + sex + "'," + email + "'," + start_date.ToString("yyyy-MM-dd") + ",'" + name + "'," + E_Dnum + 
-					"'," + E_D_start_date.ToString("yyyy-MM-dd") + ",'" + E_Bnum + "'," + password + ");";
-			return db_manager.ExecuteNonQuery(query);
+					"Values ('" + EID + "','" + address + "','" + Position + "','" + phone + "','" + evaluation + "','" + DOB.ToString("yyyy-MM-dd") + 
+					"','" + sex + "','" + email + "','" + start_date.ToString("yyyy-MM-dd") + "','" + name + "','" + E_Dnum + 
+					"','" + E_D_start_date.ToString("yyyy-MM-dd") + "','" + E_Bnum + "','" + password + "');";
+			return await db_manager.ExecuteNonQueryAsync(query);
 		}
 	}
 }
