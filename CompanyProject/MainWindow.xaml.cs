@@ -30,7 +30,7 @@ namespace CompanyProject
 		{
 			DateTime Date1 = new DateTime(1994, 07, 16);
 			return await controller.AddEmployee(10, "asdasd", "Admin", 12432423, "Good", Date1, "Male",
-				"sdasd@sdasd", Date1, "Mohamed", 1, Date1, 1, "12312wdqsad");
+				"sdasd@sdasd", Date1, "Mohamed", 1, Date1, 1);
 		}
 
 		private async void Button_Click(object sender, RoutedEventArgs e)
@@ -38,6 +38,5 @@ namespace CompanyProject
 			int x = await AddEmplyees();
 			label1.Content = x.ToString();
 		}
-
 	}
 }

@@ -67,7 +67,7 @@ namespace CompanyProject
 			}
 		}
 
-		public async Task<object> ExecuteScalar(string query)
+		public async Task<object> ExecuteScalarAsync(string query)
 		{
 			try
 			{
