@@ -26,36 +26,40 @@ namespace CompanyProject
 			controller = new Controller();
 		}
 
+		private void LoginButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (controller.connectionStatus == false)
+			{
+				MessageBox.Show("Couldn't connect to the database", "Connection Error");
+				this.Close();
+			}
+			Login();
+		}
+
+		//try login given the written username and password
 		private async void Login()
 		{
 			string username = UsernameBox.Text;
-			string password = PasswordBox.Text;
+			string password = PasswordBox.Password;
 			int loginResult = await controller.CheckUser(username, password);
 			if (loginResult == 1)
-				SignSucceeded(); ///
+				SignSucceeded(); 
 			else
 				SignFailed();
 		}
 
+		//If sign in failed
 		private void SignFailed()
 		{
 			SignInProblemLabel.Visibility = Visibility.Visible;
 		}
 
-		private void SignSucceeded() ///
+		//if sign in succeeded
+		private void SignSucceeded()
 		{
-			SignInProblemLabel.Visibility = Visibility.Visible;
-			SignInProblemLabel.Content = "Sign in succeeded";
-		}
-
-		private void LoginButton_Click(object sender, RoutedEventArgs e)
-		{
-			Login();
-		}
-
-		private void RegisterButton_Click(object sender, RoutedEventArgs e)
-		{
-			////Goto_Registration_Page();
+			MainWindowAdmin mainWindow = new MainWindowAdmin();
+			mainWindow.Show();
+			this.Close();
 		}
 	}
 }

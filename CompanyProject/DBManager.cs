@@ -11,6 +11,8 @@ namespace CompanyProject
 	public class DBManager
 	{
 		SqlConnection conn;
+		public bool connectionStatus;
+		public string errorMessage;
 
 		public DBManager()
 		{
@@ -20,12 +22,15 @@ namespace CompanyProject
 			{
 				conn.Open();
 				Console.WriteLine("The DB connection is opened successfully");
+				connectionStatus = true;
 			}
 			catch (Exception e)
 			{
 				Console.WriteLine("The DB connection is failed");
 				Console.WriteLine(e.ToString());
+				connectionStatus = false;
 			}
+			errorMessage = "";
 		}
 
 		public async Task<int> ExecuteNonQueryAsync(string query)
@@ -38,6 +43,7 @@ namespace CompanyProject
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex.Message);
+				errorMessage = ex.Message;
 				return 0;
 			}
 		}
@@ -57,12 +63,14 @@ namespace CompanyProject
 				}
 				else
 				{
+					reader.Close();
 					return null;
 				}
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex.Message);
+				errorMessage = ex.Message;
 				return null;
 			}
 		}
@@ -77,6 +85,7 @@ namespace CompanyProject
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex.Message);
+				errorMessage = ex.Message;
 				return 0;
 			}
 		}

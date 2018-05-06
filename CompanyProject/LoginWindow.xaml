@@ -8,14 +8,11 @@
         Title="Login" Height="300" Width="300">
     <Grid>
         <TextBox x:Name="UsernameBox" HorizontalAlignment="Left" Height="23" Margin="124,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="PasswordBox" HorizontalAlignment="Left" Height="23" Margin="124,104,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <PasswordBox x:Name="PasswordBox" HorizontalAlignment="Left" Height="23" Margin="124,104,0,0" VerticalAlignment="Top" Width="120"/>
         <Label x:Name="UsernameLabel" Content="Username" HorizontalAlignment="Left" Margin="29,50,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.577,0.553"/>
         <Label x:Name="PasswordLabel" Content="Password" HorizontalAlignment="Left" Margin="29,101,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.577,0.553"/>
-        <RadioButton Content="Employee" HorizontalAlignment="Left" Margin="29,173,0,0" VerticalAlignment="Top" GroupName="Emp_Cus"/>
-        <RadioButton Content="Customer" HorizontalAlignment="Left" Margin="29,197,0,0" VerticalAlignment="Top" IsChecked="True" GroupName="Emp_Cus"/>
-        <Button x:Name="LoginButton" Content="Login" HorizontalAlignment="Left" Margin="169,173,0,0" VerticalAlignment="Top" Width="75" Click="LoginButton_Click"/>
-        <Button x:Name="RegisterButton" Content="Register" HorizontalAlignment="Left" Margin="169,197,0,0" VerticalAlignment="Top" Width="75" Click="RegisterButton_Click"/>
-        <Label x:Name="SignInProblemLabel" Content="Wrong Username and/or Password" HorizontalAlignment="Left" Margin="29,142,0,0" VerticalAlignment="Top" Width="215" Visibility="Hidden"/>
+        <Button x:Name="LoginButton" Content="Login" HorizontalAlignment="Left" Margin="105,173,0,0" VerticalAlignment="Top" Width="75" Click="LoginButton_Click"/>
+        <Label x:Name="SignInProblemLabel" Content="Wrong Username and/or Password" HorizontalAlignment="Left" Margin="39,142,0,0" VerticalAlignment="Top" Width="215" Visibility="Hidden"/>
 
     </Grid>
 </Window>
