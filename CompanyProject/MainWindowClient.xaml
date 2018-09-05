@@ -1,0 +1,33 @@
+﻿<Window x:Class="CompanyProject.MainWindowClient"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CompanyProject"
+        mc:Ignorable="d"
+        Title="Company Navigation" Height="400" Width="700" MinWidth="600">
+    <Grid>
+        <TabControl x:Name="Tabs" Margin="0,0,-0.4,0" VerticalAlignment="Top" SelectionChanged="Tabs_SelectionChanged">
+            <TabItem x:Name="ServicesTab" Header="Services" Margin="-2,-2,-2,0">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem x:Name="PartsTab" Header="Parts" Margin="-2,-2,-2,0">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
+        <Grid x:Name="ServicesGrid" Margin="0,33,0,0" Visibility="Visible">
+            <DataGrid x:Name="ServicesDataGrid" ItemsSource="{Binding}" Height="250" Margin="10,10,10,0" 
+                      VerticalAlignment="Top" AutoGenerateColumns="True" 
+                      AutoGeneratingColumn="ServicesDataGrid_AutoGeneratingColumn" CanUserAddRows="False" SelectionMode="Single" SelectedCellsChanged="ServicesDataGrid_SelectedCellsChanged" CanUserReorderColumns="False" MaxColumnWidth="160" IsReadOnly="True" ColumnWidth="auto" CanUserDeleteRows="False"/>
+            <Button x:Name="RefreshSerButton" Content="Refresh" HorizontalAlignment="Left" Margin="278,279,0,0" VerticalAlignment="Top" Width="128" Click="RefreshSerButton_Click" Height="26"/>
+        </Grid>
+
+        <Grid x:Name="PartsGrid" Margin="0,33,0,0" Visibility="Collapsed">
+            <DataGrid x:Name="PartsDataGrid" ItemsSource="{Binding}" Height="250" Margin="10,10,10,0" 
+                      VerticalAlignment="Top" AutoGenerateColumns="True"
+                      AutoGeneratingColumn="PartsDataGrid_AutoGeneratingColumn" CanUserAddRows="False" SelectionMode="Single" SelectedCellsChanged="PartsDataGrid_SelectedCellsChanged" CanUserReorderColumns="False" MaxColumnWidth="160" IsReadOnly="True" ColumnWidth="auto" CanUserDeleteRows="False"/>
+            <Button x:Name="RefreshPaButton" Content="Refresh" HorizontalAlignment="Left" Margin="10,280,0,0" VerticalAlignment="Top" Width="140" Click="RefreshPaButton_Click" Height="25"/>
+            <Button x:Name="CurrentStockButton" Content="Current Stock" HorizontalAlignment="Right" Margin="544,280,10,0" VerticalAlignment="Top" Width="140" Click="CurrentStockButton_Click" Height="25"/>
+        </Grid>
+    </Grid>
+</Window>

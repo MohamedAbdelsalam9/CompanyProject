@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CompanyProject"
         mc:Ignorable="d"
-        Title="Company Navigation" Height="600" Width="700" MinWidth="600">
+        Title="Company Navigation" Height="512" Width="700" MinWidth="600">
     <Grid>
         <TabControl x:Name="Tabs" Margin="0,0,-0.4,0" VerticalAlignment="Top" SelectionChanged="Tabs_SelectionChanged">
             <TabItem x:Name="EmployeesTab" Header="Employees" Margin="-2,-2,-2,0">
@@ -25,37 +25,48 @@
             <DataGrid x:Name="EmployeesDataGrid" ItemsSource="{Binding}" Height="250" Margin="10,10,10,0" 
                       VerticalAlignment="Top" AutoGenerateColumns="True" 
                       AutoGeneratingColumn="EmployeesDataGrid_AutoGeneratingColumn" CanUserAddRows="False" SelectionMode="Single" SelectedCellsChanged="EmployeesDataGrid_SelectedCellsChanged" CanUserReorderColumns="False" MaxColumnWidth="160" IsReadOnly="True" ColumnWidth="auto" CanUserDeleteRows="False"/>
-            <Button x:Name="RefreshEmpButton" Content="Refresh" HorizontalAlignment="Left" Margin="10,270,0,0" VerticalAlignment="Top" Width="128" Click="RefreshEmpButton_Click" Height="25"/>
-            <Button x:Name="AddEmployeeButton" Content="Add Employee" HorizontalAlignment="Right" Margin="0,316,10,0" VerticalAlignment="Top" Width="126" Click="AddEmployeeButton_Click" Height="25"/>
-            <Button x:Name="EditEmpButton" Content="Edit Employee" HorizontalAlignment="Right" Margin="0,270,10,0" VerticalAlignment="Top" Click="EditEmpButton_Click" Height="25" Width="127"/>
-            <Button x:Name="DeleteEmpButton" Content="Delete Employee" HorizontalAlignment="Left" Margin="283.5,270,0,0" VerticalAlignment="Top" Width="127" Click="DeleteEmpButton_Click" Height="25"/>
+            <Button x:Name="RefreshEmpButton" Content="Refresh" HorizontalAlignment="Left" Margin="10,280,0,0" VerticalAlignment="Top" Width="128" Click="RefreshEmpButton_Click" Height="25"/>
+            <Button x:Name="AddEmployeeButton" Content="Add Employee" HorizontalAlignment="Right" Margin="0,330,9.6,0" VerticalAlignment="Top" Width="128" Click="AddEmployeeButton_Click" Height="25"/>
+            <Button x:Name="EditEmpButton" Content="Edit Employee" HorizontalAlignment="Right" Margin="0,280,10,0" VerticalAlignment="Top" Click="EditEmpButton_Click" Height="25" Width="128"/>
+            <Button x:Name="DeleteEmpButton" Content="Delete Employee" HorizontalAlignment="Left" Margin="283.5,280,0,0" VerticalAlignment="Top" Width="128" Click="DeleteEmpButton_Click" Height="25"/>
+            <Button x:Name="EmpSalaryStatsDep" Content="Salary Stats (Department)" HorizontalAlignment="Left" Margin="278,330,0,0" VerticalAlignment="Top" Width="140" Click="EmpSalaryStatsDep_Click" Height="25"/>
+            <Button x:Name="EmpSalaryStatsBr" Content="Salary Stats (Branch)" HorizontalAlignment="Left" Margin="10,330,0,0" VerticalAlignment="Top" Width="128" Click="EmpSalaryStatsBr_Click" Height="25"/>
+            <Button x:Name="EmpSubordinates" Content="Employee Subordinates" HorizontalAlignment="Right" Margin="0,380,9.6,0" VerticalAlignment="Top" Width="155" Height="25" Click="EmpSubordinates_Click"/>
+            <Button x:Name="EmpWithoutProj" Content="Employees Without Projects" HorizontalAlignment="Left" Margin="10,380,0,0" VerticalAlignment="Top" Width="155" Height="25" Click="EmpWithoutProj_Click"/>
+            <Button x:Name="EmpsWithMostProj" Content="Employees With Most Projects" HorizontalAlignment="Left" Margin="269,380,0,0" VerticalAlignment="Top" Width="170" Height="25" RenderTransformOrigin="0.495,0.464" Click="EmpsWithMostProj_Click"/>
         </Grid>
-        <Grid x:Name="ClientsGrid" Margin="0,33,0,0">
+        <Grid x:Name="ClientsGrid" Margin="0,33,0,0" Visibility="Collapsed">
             <DataGrid x:Name="ClientsDataGrid" ItemsSource="{Binding}" Height="250" Margin="10,10,10,0" 
                       VerticalAlignment="Top" AutoGenerateColumns="True" 
                       AutoGeneratingColumn="ClientsDataGrid_AutoGeneratingColumn" CanUserAddRows="False" SelectionMode="Single" SelectedCellsChanged="ClientsDataGrid_SelectedCellsChanged" CanUserReorderColumns="False" MaxColumnWidth="160" IsReadOnly="True" ColumnWidth="auto" CanUserDeleteRows="False"/>
-            <Button x:Name="RefreshCliButton" Content="Refresh" HorizontalAlignment="Left" Margin="10,270,0,0" VerticalAlignment="Top" Width="128" Click="RefreshCliButton_Click" Height="25"/>
-            <Button x:Name="AddClientButton" Content="Add Client" HorizontalAlignment="Right" Margin="0,316,10,0" VerticalAlignment="Top" Width="126" Click="AddClientButton_Click" Height="25"/>
-            <Button x:Name="EditCliButton" Content="Edit Client" HorizontalAlignment="Right" Margin="0,270,10,0" VerticalAlignment="Top" Click="EditCliButton_Click" Height="25" Width="127"/>
-            <Button x:Name="DeleteCliButton" Content="Delete Client" HorizontalAlignment="Left" Margin="283.5,270,0,0" VerticalAlignment="Top" Width="127" Click="DeleteCliButton_Click" Height="25"/>
+            <Button x:Name="RefreshCliButton" Content="Refresh" HorizontalAlignment="Left" Margin="10,280,0,0" VerticalAlignment="Top" Width="128" Click="RefreshCliButton_Click" Height="25"/>
+            <Button x:Name="AddClientButton" Content="Add Client" HorizontalAlignment="Right" Margin="0,330,10,0" VerticalAlignment="Top" Width="126" Click="AddClientButton_Click" Height="25"/>
+            <Button x:Name="EditCliButton" Content="Edit Client" HorizontalAlignment="Right" Margin="0,280,10,0" VerticalAlignment="Top" Click="EditCliButton_Click" Height="25" Width="127"/>
+            <Button x:Name="DeleteCliButton" Content="Delete Client" HorizontalAlignment="Left" Margin="283.5,280,0,0" VerticalAlignment="Top" Width="127" Click="DeleteCliButton_Click" Height="25"/>
         </Grid>
         <Grid x:Name="ServicesGrid" Margin="0,33,0,0" Visibility="Collapsed">
             <DataGrid x:Name="ServicesDataGrid" ItemsSource="{Binding}" Height="250" Margin="10,10,10,0" 
                       VerticalAlignment="Top" AutoGenerateColumns="True" 
                       AutoGeneratingColumn="ServicesDataGrid_AutoGeneratingColumn" CanUserAddRows="False" SelectionMode="Single" SelectedCellsChanged="ServicesDataGrid_SelectedCellsChanged" CanUserReorderColumns="False" MaxColumnWidth="160" IsReadOnly="True" ColumnWidth="auto" CanUserDeleteRows="False"/>
-            <Button x:Name="RefreshSerButton" Content="Refresh" HorizontalAlignment="Left" Margin="10,270,0,0" VerticalAlignment="Top" Width="128" Click="RefreshSerButton_Click" Height="25"/>
-            <Button x:Name="AddServiceButton" Content="Add Service" HorizontalAlignment="Right" Margin="0,316,10,0" VerticalAlignment="Top" Width="126" Click="AddServiceButton_Click" Height="25"/>
-            <Button x:Name="EditSerButton" Content="Edit Service" HorizontalAlignment="Right" Margin="0,270,10,0" VerticalAlignment="Top" Click="EditSerButton_Click" Height="25" Width="127"/>
-            <Button x:Name="DeleteSerButton" Content="Delete Service" HorizontalAlignment="Left" Margin="283.5,270,0,0" VerticalAlignment="Top" Width="127" Click="DeleteSerButton_Click" Height="25"/>
+            <Button x:Name="RefreshSerButton" Content="Refresh" HorizontalAlignment="Left" Margin="10,280,0,0" VerticalAlignment="Top" Width="128" Click="RefreshSerButton_Click" Height="25"/>
+            <Button x:Name="AddServiceButton" Content="Add Service" HorizontalAlignment="Right" Margin="0,330,10,0" VerticalAlignment="Top" Width="155" Click="AddServiceButton_Click" Height="25"/>
+            <Button x:Name="EditSerButton" Content="Edit Service" HorizontalAlignment="Right" Margin="0,280,10,0" VerticalAlignment="Top" Click="EditSerButton_Click" Height="25" Width="127"/>
+            <Button x:Name="DeleteSerButton" Content="Delete Service" HorizontalAlignment="Left" Margin="283.5,280,0,0" VerticalAlignment="Top" Width="127" Click="DeleteSerButton_Click" Height="25"/>
+            <Button x:Name="SerEmpCliStatsButton" Content="Services/Employes/Clients Projects" HorizontalAlignment="Left" Margin="253,330,0,0" VerticalAlignment="Top" Width="190" Click="SerEmpCliStatsButton_Click" Height="25"/>
+            <Button x:Name="SersWithMostCli" Content="Services With Most Clients" HorizontalAlignment="Left" Margin="263,380,0,0" VerticalAlignment="Top" Width="170" Click="SersWithMostCli_Click" Height="25"/>
+            <Button x:Name="SersWithoutCli" Content="Services Without Clients" HorizontalAlignment="Left" Margin="10,330,0,0" VerticalAlignment="Top" Width="155" Click="SersWithoutCli_Click" Height="25"/>
         </Grid>
+        
         <Grid x:Name="PartsGrid" Margin="0,33,0,0" Visibility="Collapsed">
             <DataGrid x:Name="PartsDataGrid" ItemsSource="{Binding}" Height="250" Margin="10,10,10,0" 
                       VerticalAlignment="Top" AutoGenerateColumns="True"
                       AutoGeneratingColumn="PartsDataGrid_AutoGeneratingColumn" CanUserAddRows="False" SelectionMode="Single" SelectedCellsChanged="PartsDataGrid_SelectedCellsChanged" CanUserReorderColumns="False" MaxColumnWidth="160" IsReadOnly="True" ColumnWidth="auto" CanUserDeleteRows="False"/>
-            <Button x:Name="RefreshPaButton" Content="Refresh" HorizontalAlignment="Left" Margin="10,270,0,0" VerticalAlignment="Top" Width="128" Click="RefreshPaButton_Click" Height="25"/>
-            <Button x:Name="AddPartButton" Content="Add Part" HorizontalAlignment="Right" Margin="0,316,10,0" VerticalAlignment="Top" Width="126" Click="AddPartButton_Click" Height="25"/>
-            <Button x:Name="EditPaButton" Content="Edit Part" HorizontalAlignment="Right" Margin="0,270,10,0" VerticalAlignment="Top" Click="EditPaButton_Click" Height="25" Width="127"/>
-            <Button x:Name="DeletePaButton" Content="Delete Part" HorizontalAlignment="Left" Margin="283.5,270,0,0" VerticalAlignment="Top" Width="127" Click="DeletePaButton_Click" Height="25"/>
+            <Button x:Name="RefreshPaButton" Content="Refresh" HorizontalAlignment="Left" Margin="10,280,0,0" VerticalAlignment="Top" Width="128" Click="RefreshPaButton_Click" Height="25"/>
+            <Button x:Name="AddPartButton" Content="Add Part" HorizontalAlignment="Right" Margin="0,330,10,0" VerticalAlignment="Top" Width="126" Click="AddPartButton_Click" Height="25"/>
+            <Button x:Name="EditPaButton" Content="Edit Part" HorizontalAlignment="Right" Margin="0,280,10,0" VerticalAlignment="Top" Click="EditPaButton_Click" Height="25" Width="127"/>
+            <Button x:Name="DeletePaButton" Content="Delete Part" HorizontalAlignment="Left" Margin="283.5,280,0,0" VerticalAlignment="Top" Width="127" Click="DeletePaButton_Click" Height="25"/>
+            <Button x:Name="IncomingPartSuppliesButton" Content="Incoming Supplies" HorizontalAlignment="Left" Margin="278,330,0,0" VerticalAlignment="Top" Width="140" Click="IncomingPartSuppliesButton_Click" Height="25"/>
+            <Button x:Name="CurrentStockButton" Content="Current Stock" HorizontalAlignment="Left" Margin="10,330,0,0" VerticalAlignment="Top" Width="128" Click="CurrentStockButton_Click" Height="25"/>
         </Grid>
     </Grid>
 </Window>

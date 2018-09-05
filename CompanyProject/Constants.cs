@@ -10,7 +10,7 @@ namespace CompanyProject
 	{
 
 
-		public static string ConnectionString => "Data Source=Ashraf\\SQLEXPRESS;Initial Catalog=CompanyProjectData;Integrated Security=True;";
+		public static string ConnectionString => "Data Source=Ashraf\\SQLEXPRESS;Initial Catalog=CompanyProjectData2;Integrated Security=True;";
 		public static string[] unmodifiableIDs = {"EID", "CID"}; //IDs that even admins won't be allowed to modify (they are already autoincremental and automatically generated)
 		public static string[] tablesWithUsers = { "Employee", "Client" }; //tables that have users associated with 
 

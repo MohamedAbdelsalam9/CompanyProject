@@ -20,16 +20,10 @@ namespace CompanyProject
     /// <summary>
     /// Interaction logic for EmployeesWindow.xaml
     /// </summary>
-    public partial class MainWindowAdmin : Window
+    public partial class MainWindowEmployee : Window
     {
 		/// General Function
 		Controller controller = new Controller();
-
-		DataTable EmployeesList;
-		List<Util.Header_Datatype> Employees_Datatypes = new List<Util.Header_Datatype>();
-		IList<DataGridCellInfo> employeesSelectedCellsInfo;
-		//values of current state of selectedcells
-		string[] employeesSelectedCells;
 
 		DataTable ClientsList;
 		List<Util.Header_Datatype> Clients_Datatypes = new List<Util.Header_Datatype>();
@@ -50,7 +44,7 @@ namespace CompanyProject
 		string[] partsSelectedCells;
 
 
-		public MainWindowAdmin()
+		public MainWindowEmployee()
         {
             InitializeComponent();
 		}
@@ -58,33 +52,22 @@ namespace CompanyProject
 		//Generate Columns
 		private void Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (Tabs.SelectedIndex == 0) //Employees
+			if (Tabs.SelectedIndex == 0) //Clients
 			{
-				EmployeesGrid.Visibility = Visibility.Visible;
-				ClientsGrid.Visibility = Visibility.Collapsed;
-				ServicesGrid.Visibility = Visibility.Collapsed;
-				PartsGrid.Visibility = Visibility.Collapsed;
-				LoadEmployees();
-			}
-			else if (Tabs.SelectedIndex == 1) //Clients
-			{
-				EmployeesGrid.Visibility = Visibility.Collapsed;
 				ClientsGrid.Visibility = Visibility.Visible;
 				ServicesGrid.Visibility = Visibility.Collapsed;
 				PartsGrid.Visibility = Visibility.Collapsed;
 				LoadClients();
 			}
-			else if (Tabs.SelectedIndex == 2) //Services
+			else if (Tabs.SelectedIndex == 1) //Services
 			{
-				EmployeesGrid.Visibility = Visibility.Collapsed;
 				ClientsGrid.Visibility = Visibility.Collapsed;
 				ServicesGrid.Visibility = Visibility.Visible;
 				PartsGrid.Visibility = Visibility.Collapsed;
 				LoadServices();
 			}
-			else if (Tabs.SelectedIndex == 3) //Parts
+			else if (Tabs.SelectedIndex == 2) //Parts
 			{
-				EmployeesGrid.Visibility = Visibility.Collapsed;
 				ClientsGrid.Visibility = Visibility.Collapsed;
 				ServicesGrid.Visibility = Visibility.Collapsed;
 				PartsGrid.Visibility = Visibility.Visible;
@@ -124,148 +107,12 @@ namespace CompanyProject
 		//An event handler to detect if an employee was changed to refresh the data
 		private void ItemChanged(object sender, RefreshDataEventArgs e)
 		{
-			if (e.ChangeCommited && e.TableName.Contains("Employee"))
-				LoadEmployees();
-			else if (e.ChangeCommited && e.TableName.Contains("Client"))
+			if (e.ChangeCommited && e.TableName.Contains("Client"))
 				LoadClients();
 			else if (e.ChangeCommited && e.TableName.Contains("Service"))
 				LoadServices();
 			else if (e.ChangeCommited && e.TableName.Contains("Part"))
 				LoadParts();
-		}
-
-		///Admin Only
-		/// Employees specific functions
-		//Generate Columns automatically
-		private void EmployeesDataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
-		{
-			Util.Header_Datatype temp = new Util.Header_Datatype
-			{
-				Header = e.Column.Header.ToString(),
-				Datatype = e.PropertyType
-			};
-			Employees_Datatypes.Add(temp);
-
-			if (temp.Datatype == typeof(System.DateTime))
-				(e.Column as DataGridTextColumn).Binding.StringFormat = "yyyy-MM-dd";
-		}
-
-		//Load the Employees List
-		private async void LoadEmployees()
-		{
-			if (controller.connectionStatus == false)
-			{
-				MessageBox.Show("Couldn't connect to the database", "Connection Error");
-				this.Close();
-			}
-			Employees_Datatypes.Clear();
-			EmployeesList = await controller.GetAllTable("Employee");
-			EmployeesDataGrid.DataContext = EmployeesList;
-		}
-
-		//if a specific row is selected, save it's status to see if the user changes it
-		private void EmployeesDataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
-		{
-			employeesSelectedCellsInfo = e.AddedCells;
-			employeesSelectedCells = new string[employeesSelectedCellsInfo.Count];
-			for (int i = 0; i < employeesSelectedCellsInfo.Count; i++)
-			{
-				try { employeesSelectedCells[i] = (employeesSelectedCellsInfo[i].Column.GetCellContent(employeesSelectedCellsInfo[i].Item)
-						as TextBlock).Text; }
-				catch { employeesSelectedCells[i] = ""; }
-			}
-		}
-
-		private void AddEmployeeButton_Click(object sender, RoutedEventArgs e)
-		{
-			Add_Window(Employees_Datatypes, "Employee");
-		}
-
-		private void RefreshEmpButton_Click(object sender, RoutedEventArgs e)
-		{
-			LoadEmployees();
-		}
-
-		//Edit Selected Employee
-		private void EditEmpButton_Click(object sender, RoutedEventArgs e)
-		{
-			//if no row is selected
-			if (EmployeesDataGrid.SelectedCells.Count == 0)
-			{
-				MessageBox.Show("No Employee is Selected", "Select an Employee");
-				return;
-			}
-
-			//Display the Edit window
-			Edit_Window(Employees_Datatypes, employeesSelectedCells, "Employee");
-		}
-
-		private async void DeleteEmpButton_Click(object sender, RoutedEventArgs e)
-		{
-			//if no row is selected
-			if (EmployeesDataGrid.SelectedCells.Count == 0)
-			{
-				MessageBox.Show("No Employee is Selected", "Select an Employee");
-				return;
-			}
-
-			Util.ModifiedItem deletedItem = new Util.ModifiedItem();
-			deletedItem.TableName = "Employee";
-			deletedItem.PrimaryKeysHeaders = Util.GetTablePk(deletedItem.TableName).PrimaryKeys;
-			deletedItem = Util.GetPKValues(deletedItem, Employees_Datatypes, employeesSelectedCells); //get values of primary keys (deletedItem.PrimaryKeysValues)
-
-			if (MessageBox.Show("Are you sure you want to delete the Employee? (Deleting the Employee will also delete the user associated)", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) == MessageBoxResult.Yes)
-			{
-				await controller.DeleteItem(deletedItem);
-				LoadEmployees();
-			}
-		}
-
-		//Get Statistics about Salary by Department
-		private async void EmpSalaryStatsDep_Click(object sender, RoutedEventArgs e)
-		{
-			DataTable statsDep = await controller.GetSalStatisticsDep();
-			StatisticsWindow statisticsWindow = new StatisticsWindow(statsDep);
-			statisticsWindow.Show();
-		}
-
-		//Get Statistics about Salary by Branch
-		private async void EmpSalaryStatsBr_Click(object sender, RoutedEventArgs e)
-		{
-			DataTable statsBr = await controller.GetSalStatisticsBr();
-			StatisticsWindow statisticsWindow = new StatisticsWindow(statsBr);
-			statisticsWindow.Show();
-		}
-		
-		//Get Employees With no Projects
-		private async void EmpWithoutProj_Click(object sender, RoutedEventArgs e)
-		{
-			DataTable statsBr = await controller.GetEmpWithoutProj(); 
-			StatisticsWindow statisticsWindow = new StatisticsWindow(statsBr);
-			statisticsWindow.Show();
-		}
-
-		//Get Employees With Most Projects
-		private async void EmpsWithMostProj_Click(object sender, RoutedEventArgs e)
-		{
-			DataTable statsBr = await controller.GetEmpsWithMostProj();
-			StatisticsWindow statisticsWindow = new StatisticsWindow(statsBr);
-			statisticsWindow.Show();
-		}
-
-		//Get Select Employee Suboridinates
-		private async void EmpSubordinates_Click(object sender, RoutedEventArgs e)
-		{
-			//if no row is selected
-			if (EmployeesDataGrid.SelectedCells.Count == 0)
-			{
-				MessageBox.Show("No Employee is Selected", "Select an Employee");
-				return;
-			}
-			
-			DataTable statsBr = await controller.GetEmpSubordinates(employeesSelectedCells[0]);
-			StatisticsWindow statisticsWindow = new StatisticsWindow(statsBr);
-			statisticsWindow.Show();
 		}
 
 
@@ -338,27 +185,6 @@ namespace CompanyProject
 			Edit_Window(Clients_Datatypes, clientsSelectedCells, "Client");
 		}
 
-		private async void DeleteCliButton_Click(object sender, RoutedEventArgs e)
-		{
-			//if no row is selected
-			if (ClientsDataGrid.SelectedCells.Count == 0)
-			{
-				MessageBox.Show("No Client is Selected", "Select an Client");
-				return;
-			}
-
-			Util.ModifiedItem deletedItem = new Util.ModifiedItem();
-			deletedItem.TableName = "Client";
-			deletedItem.PrimaryKeysHeaders = Util.GetTablePk(deletedItem.TableName).PrimaryKeys;
-			deletedItem = Util.GetPKValues(deletedItem, Clients_Datatypes, clientsSelectedCells); //get values of primary keys (deletedItem.PrimaryKeysValues)
-
-			if (MessageBox.Show("Are you sure you want to delete the Client? (Deleting the Client will also delete the user associated)", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) == MessageBoxResult.Yes)
-			{
-				await controller.DeleteItem(deletedItem);
-				LoadClients();
-			}
-		}
-
 
 		///Admin, Employees and Clients (with some exceptions)
 		/// Services specific functions
@@ -427,27 +253,6 @@ namespace CompanyProject
 
 			//Display the Edit window
 			Edit_Window(Services_Datatypes, servicesSelectedCells, "Service");
-		}
-
-		private async void DeleteSerButton_Click(object sender, RoutedEventArgs e)
-		{
-			//if no row is selected
-			if (ServicesDataGrid.SelectedCells.Count == 0)
-			{
-				MessageBox.Show("No Service is Selected", "Select a Service");
-				return;
-			}
-
-			Util.ModifiedItem deletedItem = new Util.ModifiedItem();
-			deletedItem.TableName = "Service";
-			deletedItem.PrimaryKeysHeaders = Util.GetTablePk(deletedItem.TableName).PrimaryKeys;
-			deletedItem = Util.GetPKValues(deletedItem, Services_Datatypes, servicesSelectedCells); //get values of primary keys (deletedItem.PrimaryKeysValues)
-
-			if (MessageBox.Show("Are you sure you want to delete the Service?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) == MessageBoxResult.Yes)
-			{
-				await controller.DeleteItem(deletedItem);
-				LoadServices();
-			}
 		}
 
 		//Admin and Employees only
@@ -546,27 +351,6 @@ namespace CompanyProject
 
 			//Display the Edit window
 			Edit_Window(Parts_Datatypes, partsSelectedCells, "Part");
-		}
-
-		private async void DeletePaButton_Click(object sender, RoutedEventArgs e)
-		{
-			//if no row is selected
-			if (PartsDataGrid.SelectedCells.Count == 0)
-			{
-				MessageBox.Show("No Part is Selected", "Select a Part");
-				return;
-			}
-
-			Util.ModifiedItem deletedItem = new Util.ModifiedItem();
-			deletedItem.TableName = "Part";
-			deletedItem.PrimaryKeysHeaders = Util.GetTablePk(deletedItem.TableName).PrimaryKeys;
-			deletedItem = Util.GetPKValues(deletedItem, Parts_Datatypes, partsSelectedCells); //get values of primary keys (deletedItem.PrimaryKeysValues)
-
-			if (MessageBox.Show("Are you sure you want to delete the Part?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) == MessageBoxResult.Yes)
-			{
-				await controller.DeleteItem(deletedItem);
-				LoadParts();
-			}
 		}
 
 		//admin and employee role

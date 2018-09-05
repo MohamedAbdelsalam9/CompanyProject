@@ -28,6 +28,7 @@ namespace CompanyProject
 
 		private void LoginButton_Click(object sender, RoutedEventArgs e)
 		{
+			Console.Write(typeof(string).Assembly.ImageRuntimeVersion);
 			if (controller.connectionStatus == false)
 			{
 				MessageBox.Show("Couldn't connect to the database", "Connection Error");
@@ -55,11 +56,41 @@ namespace CompanyProject
 		}
 
 		//if sign in succeeded
-		private void SignSucceeded()
+		private async void SignSucceeded()
+		{
+			string username = UsernameBox.Text;
+			string password = PasswordBox.Password;
+			string role = await controller.GetRole(username, password);
+
+			if (role.Contains("admin"))
+				CreateAdmin();
+			else if (role.Contains("employee"))
+				CreateEmployee();
+			else
+				CreateClient();
+
+			this.Close();
+		}
+
+		private void CreateAdmin()
 		{
 			MainWindowAdmin mainWindow = new MainWindowAdmin();
 			mainWindow.Show();
-			this.Close();
+			Console.WriteLine("Connected as an admin");
+		}
+
+		private void CreateEmployee()
+		{
+			MainWindowEmployee mainWindow = new MainWindowEmployee();
+			mainWindow.Show();
+			Console.WriteLine("Connected as an employee");
+		}
+
+		private void CreateClient()
+		{
+			MainWindowClient mainWindow = new MainWindowClient();
+			mainWindow.Show();
+			Console.WriteLine("Connected as a client");
 		}
 	}
 }
